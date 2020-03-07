@@ -21,7 +21,7 @@ def uptime(update,context):
     seconds_elapsed = time.time() - psutil.boot_time()
     hours=trunc(seconds_elapsed//3600)
     minutes=trunc((seconds_elapsed//60)%60)
-    update.message.reply_text(str(hours)+"h"+str(minutes)+"m")
+    update.message.reply_text("up scince: " + str(hours)+"h"+str(minutes)+"m")
 
 #reply with diskusage
 def diskusage(update,context):
@@ -29,6 +29,18 @@ def diskusage(update,context):
     used=bytes2human(disk_usage.used)
     total=bytes2human(disk_usage.total)
     update.message.reply_text(used+" / "+total+" used")
+
+#reply with temps of hardware devices
+def temps(update,context):
+    temp_string=""
+    temperatures = psutil.sensors_temperatures()
+    for device,values in temperatures.items():
+        temp_string+=device+"\n"
+        for value in values:
+            temp_string+="  "+value.label + "        " +str(value.current) + "°C"
+            temp_string+="\n"
+    update.message.reply_text(temp_string)
+
 
 #start bot and poll for user input
 def main():
@@ -39,6 +51,7 @@ def main():
     #add commandHandlers here:
     dispatcher.add_handler(CommandHandler("uptime",uptime))
     dispatcher.add_handler(CommandHandler("diskusage",diskusage))
+    dispatcher.add_handler(CommandHandler("temps",temps))
 
     updater.start_polling()
 
