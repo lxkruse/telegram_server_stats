@@ -3,7 +3,6 @@ from math import trunc
 from psutil._common import bytes2human
 import psutil
 import time
-import datetime
 import logging
 
 #setup logger
@@ -41,21 +40,5 @@ def temps(update,context):
             temp_string+="\n"
     update.message.reply_text(temp_string)
 
-
-#start bot and poll for user input
-def main():
-    updater = Updater(API_TOKEN,use_context=True)
-
-    dispatcher = updater.dispatcher
-
-    #add commandHandlers here:
-    dispatcher.add_handler(CommandHandler("uptime",uptime))
-    dispatcher.add_handler(CommandHandler("diskusage",diskusage))
-    dispatcher.add_handler(CommandHandler("temps",temps))
-
-    updater.start_polling()
-
-    updater.idle()
-
-if __name__ == '__main__':
-    main()
+def netspeed(update,context):
+    
