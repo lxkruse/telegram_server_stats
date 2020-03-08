@@ -39,6 +39,3 @@ def temps(update,context):
             temp_string+="  "+value.label + "        " +str(value.current) + "°C"
             temp_string+="\n"
     update.message.reply_text(temp_string)
-
-def netspeed(update,context):
-    
