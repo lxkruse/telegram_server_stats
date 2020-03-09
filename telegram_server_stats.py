@@ -1,3 +1,10 @@
+#telegram_server_stats.py
+####################################################################
+#entry point of the bot
+#
+#reads in API_TOKEN and sets up bot. Also adds all used command_blocks
+####################################################################
+
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import command_blocks as cmd

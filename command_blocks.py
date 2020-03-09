@@ -1,19 +1,16 @@
+#command_blocks.py
+####################################################################
+#adds all important command command_blocks that handle user requests
+#
+#commands currently include /uptime,/diskusage,/temps
+####################################################################
+
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from math import trunc
 from psutil._common import bytes2human
 import psutil
 import time
 import logging
-
-#setup logger
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-#read API-token
-file = open('api_token.txt')
-API_TOKEN = file.readline().rstrip('\n');
-file.close()
 
 #reply with uptime of system
 def uptime(update,context):
