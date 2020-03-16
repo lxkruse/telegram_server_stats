@@ -11,6 +11,7 @@ from psutil._common import bytes2human
 import psutil
 import time
 import logging
+import os
 
 #reply with uptime of system
 def uptime(update,context):
@@ -36,3 +37,22 @@ def temps(update,context):
             temp_string+="  "+value.label + "        " +str(value.current) + "°C"
             temp_string+="\n"
     update.message.reply_text(temp_string)
+
+def diskhealth(update,context):
+    disks=getdisks()
+    for disk in disks:
+        print(disk)
+
+def getdisks():
+    cmd="sudo smartctl --scan"
+    cmd_output=os.popen(cmd)
+    cmd_lines=cmd_output.readlines()
+
+    disks=[]
+
+    for cmd_line in cmd_lines:
+        cmd_line=cmd_line.split(' ')[0]
+        disk=cmd_line.split('/')[2]
+        disks.append(disk)
+
+    return disks

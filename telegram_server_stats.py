@@ -29,6 +29,7 @@ def main():
     dispatcher.add_handler(CommandHandler("uptime",cmd.uptime))
     dispatcher.add_handler(CommandHandler("diskusage",cmd.diskusage))
     dispatcher.add_handler(CommandHandler("temps",cmd.temps))
+    dispatcher.add_handler(CommandHandler("diskhealth",cmd.diskhealth))
 
     updater.start_polling()
 
