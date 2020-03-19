@@ -10,6 +10,8 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+filechanges = []
+
 class FileWatcher:
     def __init__(self,src_path):
         self.__src_path = src_path
@@ -40,15 +42,13 @@ class FileWatcher:
         )
 
 class NasFileEventHandler(FileSystemEventHandler):
+
     def __init__(self):
         super().__init__()
 
     def on_any_event(self,event):
         if event.event_type!="modified":
-            self.notify_user(event)
-
-    def notify_user(self,event):
-        print(event.src_path + " " + event.event_type)
+            filechanges.append(event.src_path + " " + event.event_type)
 
 def start_monitoring(src_path):
     FileWatcher(src_path).run()

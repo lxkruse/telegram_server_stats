@@ -8,6 +8,7 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from math import trunc
 from psutil._common import bytes2human
+import filesystem_monitoring as fmonitor
 import psutil
 import time
 import logging
@@ -38,21 +39,13 @@ def temps(update,context):
             temp_string+="\n"
     update.message.reply_text(temp_string)
 
-def diskhealth(update,context):
-    disks=getdisks()
-    for disk in disks:
-        print(disk)
-
-def getdisks():
-    cmd="sudo smartctl --scan"
-    cmd_output=os.popen(cmd)
-    cmd_lines=cmd_output.readlines()
-
-    disks=[]
-
-    for cmd_line in cmd_lines:
-        cmd_line=cmd_line.split(' ')[0]
-        disk=cmd_line.split('/')[2]
-        disks.append(disk)
-
-    return disks
+def getfilechanges(update,context):
+    filechanges=fmonitor.filechanges
+    if len(filechanges)==0:
+        update.message.reply_text("no filechanges")
+    else:
+        with open("/home/alex/filechanges.txt", "w") as f:
+            for item in filechanges:
+                f.write("%s\n" % item)
+        update.message.reply_document(document=open("/home/alex/filechanges.txt", "rb"))
+        fmonitor.filechanges=[]
