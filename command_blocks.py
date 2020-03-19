@@ -39,11 +39,14 @@ def temps(update,context):
             temp_string+="\n"
     update.message.reply_text(temp_string)
 
+#send a txt with all filechanges since the last time the command was called
 def getfilechanges(update,context):
     filechanges=fmonitor.filechanges
+    #send text message in case no filechanges happened
     if len(filechanges)==0:
         update.message.reply_text("no filechanges")
     else:
+        #write filechanges to txt and send it
         with open("/home/alex/filechanges.txt", "w") as f:
             for item in filechanges:
                 f.write("%s\n" % item)
