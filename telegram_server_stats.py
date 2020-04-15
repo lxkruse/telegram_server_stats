@@ -7,7 +7,9 @@
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
+from threading import Thread
 import command_blocks as cmd
+import filesystem_monitoring as fmonitor
 
 #setup logger
 logging.basicConfig(level=logging.DEBUG,
@@ -29,9 +31,14 @@ def main():
     dispatcher.add_handler(CommandHandler("uptime",cmd.uptime))
     dispatcher.add_handler(CommandHandler("diskusage",cmd.diskusage))
     dispatcher.add_handler(CommandHandler("temps",cmd.temps))
+    dispatcher.add_handler(CommandHandler("getfilechanges",cmd.getfilechanges))
 
+    fmonitor_thread = Thread(target=fmonitor.FileWatcher("/home/alex/test").run)
+    fmonitor_thread.start()
+
+
+    #start listening for chat input
     updater.start_polling()
-
     updater.idle()
 
 if __name__ == '__main__':

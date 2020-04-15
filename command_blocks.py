@@ -8,9 +8,11 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from math import trunc
 from psutil._common import bytes2human
+import filesystem_monitoring as fmonitor
 import psutil
 import time
 import logging
+import os
 
 #reply with uptime of system
 def uptime(update,context):
@@ -36,3 +38,17 @@ def temps(update,context):
             temp_string+="  "+value.label + "        " +str(value.current) + "°C"
             temp_string+="\n"
     update.message.reply_text(temp_string)
+
+#send a txt with all filechanges since the last time the command was called
+def getfilechanges(update,context):
+    filechanges=fmonitor.filechanges
+    #send text message in case no filechanges happened
+    if len(filechanges)==0:
+        update.message.reply_text("no filechanges")
+    else:
+        #write filechanges to txt and send it
+        with open("/home/alex/filechanges.txt", "w") as f:
+            for item in filechanges:
+                f.write("%s\n" % item)
+        update.message.reply_document(document=open("/home/alex/filechanges.txt", "rb"))
+        fmonitor.filechanges=[]
