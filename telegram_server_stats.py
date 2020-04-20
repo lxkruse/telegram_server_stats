@@ -10,6 +10,7 @@ import logging
 from threading import Thread
 import command_blocks as cmd
 import filesystem_monitoring as fmonitor
+import configuration as config
 
 #setup logger
 logging.basicConfig(level=logging.DEBUG,
@@ -17,9 +18,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 
 #read API-token
-file = open('api_token.txt')
-API_TOKEN = file.readline().rstrip('\n');
-file.close()
+API_TOKEN = config.get_API_TOKEN()
 
 #start bot and poll for user input
 def main():
