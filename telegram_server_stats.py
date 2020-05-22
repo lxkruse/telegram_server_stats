@@ -19,12 +19,16 @@ logger = logging.getLogger(__name__)
 
 #read API-token
 API_TOKEN = config.get_API_TOKEN()
+CHAT_ID = config.get_CHAT_ID()
 
 #start bot and poll for user input
 def main():
     updater = Updater(API_TOKEN,use_context=True)
-
     dispatcher = updater.dispatcher
+    bot=updater.bot
+
+    #send a hello
+    bot.send_message(CHAT_ID,"SERVER ONLINE")
 
     #add commandHandlers here:
     dispatcher.add_handler(CommandHandler("uptime",cmd.uptime))

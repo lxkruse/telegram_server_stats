@@ -6,6 +6,9 @@ def read_config():
     return config
 
 def get_API_TOKEN():
-
     config=read_config()
     return config["API_TOKEN"]
+
+def get_CHAT_ID():
+    config=read_config()
+    return config["CHAT_ID"]
